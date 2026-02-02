@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Sundhumwoleee</title>
+
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: black;
+        font-family: 'Segoe UI', sans-serif;
+        text-align: center;
+        color: white;
+    }
+
+    #name {
+        position: absolute;
+        top: 30%;
+        width: 100%;
+        font-size: 3em;
+        text-shadow: 0 0 20px pink, 0 0 40px red;
+        z-index: 10;
+    }
+
+    #message {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        font-size: 1.3em;
+        color: #ffd1dc;
+        opacity: 0;
+        transition: opacity 2s ease-in;
+        z-index: 10;
+    }
+
+    #ending {
+        position: absolute;
+        top: 40%;
+        width: 100%;
+        font-size: 2.5em;
+        opacity: 0;
+        transition: opacity 3s ease-in;
+        text-shadow: 0 0 30px red;
+        z-index: 10;
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+</style>
+</head>
+
+<body>
+
+<div id="name"></div>
+
+<div id="message">
+    Even though miles separate us,<br>
+    my heart is always with you ❤️<br><br>
+    One day I’ll celebrate this by your side 🤍
+</div>
+
+<div id="ending">I love you ❤️</div>
+
+<canvas id="canvas"></canvas>
+
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// LETTER BY LETTER NAME ANIMATION
+const nameText = "🎉 Happy Birthday Sundhumwoleee 🎂";
+let index = 0;
+const nameDiv = document.getElementById("name");
+
+function typeName() {
+    if (index < nameText.length) {
+        nameDiv.innerHTML += nameText.charAt(index);
+        index++;
+        setTimeout(typeName, 120);
+    }
+}
+typeName();
+
+// SHOW MESSAGE AFTER NAME
+setTimeout(() => {
+    document.getElementById("message").style.opacity = 1;
+}, 4000);
+
+// SHOW I LOVE YOU ENDING
+setTimeout(() => {
+    document.getElementById("ending").style.opacity = 1;
+}, 9000);
+
+// FIREWORKS
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let fireworks = [];
+
+function Firework(x, y) {
+    this.x = x;
+    this.y = y;
+    this.radius = Math.random() * 3 + 1;
+    this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    this.life = 100;
+}
+
+function explode(x, y) {
+    for (let i = 0; i < 50; i++) {
+        fireworks.push(new Firework(x, y));
+    }
+}
+
+function animate() {
+    ctx.fillStyle = "rgba(0,0,0,0.25)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    fireworks.forEach((f, i) => {
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
+        ctx.fillStyle = f.color;
+        ctx.fill();
+        f.y -= Math.random() * 3;
+        f.life--;
+        if (f.life <= 0) fireworks.splice(i, 1);
+    });
+
+    requestAnimationFrame(animate);
+}
+
+setInterval(() => {
+    explode(Math.random() * canvas.width, Math.random() * canvas.height / 2);
+}, 700);
+
+animate();
+</script>
+
+</body>
+</html>
